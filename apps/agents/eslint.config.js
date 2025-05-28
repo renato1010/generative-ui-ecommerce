@@ -32,6 +32,7 @@ export default [
     ignores: [
       "node_modules/**",
       "dist/**",
+      "generated/**",
       "dist-cjs/**",
       "eslint.config.js",
       "scripts/**",
