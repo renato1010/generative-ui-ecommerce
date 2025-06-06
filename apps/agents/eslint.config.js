@@ -59,6 +59,7 @@ export default [
       "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/no-misused-promises": "error",
       "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-redeclare": 1,
       camelcase: 0,
       "class-methods-use-this": 0,
       "import/extensions": [2, "ignorePackages"],
@@ -84,6 +85,7 @@ export default [
       "consistent-return": 0,
       "no-else-return": 0,
       "new-cap": ["error", { properties: false, capIsNew: false }],
+      "no-redeclare": 0,
     },
   },
 ];
