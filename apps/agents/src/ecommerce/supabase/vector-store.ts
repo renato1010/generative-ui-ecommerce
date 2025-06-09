@@ -18,7 +18,7 @@ const supabaseClient = createClient(
 
 const vectorStore = new SupabaseVectorStore(openAITxtEmbedding3LargeModel, {
   client: supabaseClient,
-  tableName: "documents",
+  tableName: "products",
   queryName: "match_documents",
 });
 
@@ -133,29 +133,29 @@ export const supabaseVectorStoreRetriever: SupabaseVectorStoreRetriever = (
   }
 };
 
-void (async () => {
-  try {
-    // ** Adding documents to vector store **//
-    // await addDocumentsToVectorStore(documents);
-    // const filter = { source: "https://example.com" };
-    // ** Querying vector store **//
-    // const results = await queryVectorStore({
-    //   query: "mitochondria",
-    //   returnScores: true,
-    // });
-    // for (const [doc, score] of results) {
-    //   console.log(
-    //     `* ${doc.pageContent} [${JSON.stringify({ ...doc.metadata, score: score.toFixed(6) }, null, 2)}]`
-    //   );
-    // }
-    // ** Retriever **//
-    // const retriever = supabaseVectorStoreRetriever();
-    // const retrieverResults = await retriever.invoke("biology");
-    // console.dir({ retrieverResults }, { depth: null });
-    // ** Clear vector store **//
-    const vectorArray = await vectorStore.embeddings.embedQuery("test");
-    console.log({ vectorArray }, "Vector Length: ", vectorArray.length);
-  } catch (error) {
-    console.error("Error in adding documents to vector store:", error);
-  }
-})();
+// void (async () => {
+// try {
+// ** Adding documents to vector store **//
+// await addDocumentsToVectorStore(documents);
+// const filter = { source: "https://example.com" };
+// ** Querying vector store **//
+// const results = await queryVectorStore({
+//   query: "mitochondria",
+//   returnScores: true,
+// });
+// for (const [doc, score] of results) {
+//   console.log(
+//     `* ${doc.pageContent} [${JSON.stringify({ ...doc.metadata, score: score.toFixed(6) }, null, 2)}]`
+//   );
+// }
+// ** Retriever **//
+// const retriever = supabaseVectorStoreRetriever();
+// const retrieverResults = await retriever.invoke("biology");
+// console.dir({ retrieverResults }, { depth: null });
+// ** Clear vector store **//
+//   const vectorArray = await vectorStore.embeddings.embedQuery("test");
+//   console.log({ vectorArray }, "Vector Length: ", vectorArray.length);
+// } catch (error) {
+//   console.error("Error in adding documents to vector store:", error);
+// }
+// })();

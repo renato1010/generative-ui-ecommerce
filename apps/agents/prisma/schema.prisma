@@ -5,23 +5,29 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String                 @id @default(cuid())
   name        String
-  description String?
+  description String
   price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  stock       Int                    @default(0)
+  imageUrl    String?
+  content     String
+  metadata    Json
+  vector      Unsupported("vector")?
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
 
-  @@map("products")
 }

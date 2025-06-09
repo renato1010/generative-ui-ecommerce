@@ -10,6 +10,17 @@ export default [
   js.configs.recommended,
   prettierConfig,
   {
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      "**/generated/**",
+      "dist-cjs/**",
+      "eslint.config.js",
+      "scripts/**",
+      "*.d.ts",
+    ],
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
     plugins: {
       "@typescript-eslint": tseslint,
@@ -29,15 +40,6 @@ export default [
         ...globals.browser,
       },
     },
-    ignores: [
-      "node_modules/**",
-      "dist/**",
-      "generated/**",
-      "dist-cjs/**",
-      "eslint.config.js",
-      "scripts/**",
-      "*.d.ts",
-    ],
     rules: {
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "@typescript-eslint/no-empty-function": 0,
