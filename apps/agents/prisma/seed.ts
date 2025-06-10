@@ -1,4 +1,4 @@
-import { products } from "src/ecommerce/prisma/product-mock.js";
+import { products } from "./product-mock.js";
 import { addDocumentsToVectorStore } from "../src/ecommerce/prisma/vector-store.js";
 
 async function main() {

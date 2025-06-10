@@ -1,4 +1,4 @@
-import { Prisma } from "../../generated/prisma/edge.js";
+import { Prisma } from "../src/generated/prisma/edge.js";
 
 // Mock data for products skip the id field as it is auto-generated
 export const products: Prisma.ProductCreateInput[] = [
@@ -19,7 +19,6 @@ export const products: Prisma.ProductCreateInput[] = [
     procesador: M4 Pro o M4 Max
     memoria:24 GB
     almacenamiento: 512 GB o 1 TB SSD
-    stock: 50
     `,
     metadata: {
       category: "Electronics",
@@ -47,7 +46,6 @@ export const products: Prisma.ProductCreateInput[] = [
     procesador: M4 Pro chip with 14-core CPU, and 20-core GPU
     memoria: 24 GB o 48 GB
     almacenamiento: 512 GB
-    stock: 100
     `,
     metadata: {
       category: "Electronics",
@@ -75,7 +73,6 @@ export const products: Prisma.ProductCreateInput[] = [
     procesador: M4 Max chip with 14-core CPU, and 32-core GPU o M4 Max chip with 16-core CPU, and 40-core GPU
     memoria: 36 GB o 48 GB
     almacenamiento: 1 TB
-    stock: 75
     `,
     metadata: {
       category: "Electronics",
@@ -103,7 +100,6 @@ export const products: Prisma.ProductCreateInput[] = [
     memory: 8 GB to 48 GB DDR5-5600
     storage: 500 GB to 2 TB SSD or bring your own NVMe SSD
     operating system: Windows 11 or Bring your own OS(Linux)
-    stock: 200
 `,
     metadata: {
       category: "Electronics",
@@ -131,7 +127,7 @@ export const products: Prisma.ProductCreateInput[] = [
     memory: 8 GB to 96 GB DDR5-5600
     storage: 500 GB to 8 TB SSD or bring your own NVMe SSD
     operating system: Windows 11 or Bring your own OS(Linux)
-    stock: 150`,
+    `,
     metadata: {
       category: "Electronics",
       productImage: "https://static.frame.work/psezretfa67f1yogx9w4ota6zmjs",
