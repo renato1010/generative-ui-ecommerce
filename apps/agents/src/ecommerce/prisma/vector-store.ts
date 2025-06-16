@@ -5,6 +5,7 @@ import {
   Product,
 } from "../../generated/prisma/client.js";
 import { openAITxtEmbedding3LargeModel } from "../models.js";
+import { VectorStoreRetrieverInput } from "@langchain/core/vectorstores";
 // import { products } from "./product-mock.js";
 
 /* doc: https://js.langchain.com/docs/integrations/vectorstores/prisma/ */
@@ -33,7 +34,11 @@ export const productVectorStore: ProductVectorStore =
       },
     }
   );
-export const productRetriever = productVectorStore.asRetriever({ k: 4 });
+type ConfigPrismaRetriever = Parameters<typeof productVectorStore.asRetriever>;
+export const productRetriever = (...options: ConfigPrismaRetriever) => {
+  const [k = 4, ...rest] = options;
+  return productVectorStore.asRetriever(k, ...rest);
+};
 
 // export const prismaVectorStoreAsRetriever = vectorStore.asRetriever({ k: 4 });
 

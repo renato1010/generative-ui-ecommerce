@@ -1,10 +1,9 @@
 {
   "node_version": "20",
-  "dependencies": [
-    "."
-  ],
+  "dependencies": ["."],
   "graphs": {
-    "agent": "./apps/agents/src/react-agent/graph.ts:graph"
+    "agent": "./apps/agents/src/react-agent/graph.ts:graph",
+    "laptops": "./apps/agents/src/ecommerce/graph.ts:graph"
   },
   "env": ".env"
 }
