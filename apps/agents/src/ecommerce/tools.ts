@@ -1,42 +1,21 @@
 import { tool } from "@langchain/core/tools";
-import { Command, END } from "@langchain/langgraph";
+// import { Command, END } from "@langchain/langgraph";
 import { z } from "zod";
 import { getProducts } from "./utils/semantic-search.js";
 import { laptopsByPrice } from "./utils/laptops-by-price.js";
-import { ToolMessage } from "@langchain/core/messages";
+// import { ToolMessage } from "@langchain/core/messages";
 
 const getProductsBySemanticSearch = tool(
   async ({ query }) => {
     try {
       const semanticProducts = await getProducts(query);
-      return new Command({
-        update: {
-          messages: [
-            new ToolMessage({
-              content: semanticProducts,
-              tool_call_id: "get_products_by_semantic_search",
-            }),
-          ],
-          goto: END,
-        },
-      });
+      return semanticProducts;
     } catch (error) {
       console.error(
         "Error in semantic search:",
         error instanceof Error ? error.message : error
       );
-      // return a simple text showing no products found
-      return new Command({
-        update: {
-          messages: [
-            new ToolMessage({
-              content: `No products found for the query:\n\n "${query}". Please try a different search term.`,
-              tool_call_id: "get_products_by_semantic_search",
-            }),
-          ],
-          goto: END,
-        },
-      });
+      return `No products found for your query criteria: "${query}". Please try a different search term.`;
     }
   },
   {
@@ -60,33 +39,13 @@ const getLaptopsByPrice = tool(
   async (price: ProductPriceFilter) => {
     try {
       const stringifiedItems = await laptopsByPrice(price);
-      return new Command({
-        update: {
-          messages: [
-            new ToolMessage({
-              content: stringifiedItems,
-              tool_call_id: "get_laptops_by_price",
-            }),
-          ],
-          goto: END,
-        },
-      });
+      return stringifiedItems;
     } catch (error) {
       console.error(
         "Error parsing price:",
         error instanceof Error ? error.message : error
       );
-      return new Command({
-        update: {
-          messages: [
-            new ToolMessage({
-              content: "No laptops found for the specified price range.",
-              tool_call_id: "get_laptops_by_price",
-            }),
-          ],
-          goto: END,
-        },
-      });
+      return `No laptops found for the price range, please try a different price`;
     }
   },
   {

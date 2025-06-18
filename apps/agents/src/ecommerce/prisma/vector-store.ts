@@ -5,8 +5,7 @@ import {
   Product,
 } from "../../generated/prisma/client.js";
 import { openAITxtEmbedding3LargeModel } from "../models.js";
-import { VectorStoreRetrieverInput } from "@langchain/core/vectorstores";
-// import { products } from "./product-mock.js";
+// import { VectorStoreRetrieverInput } from "@langchain/core/vectorstores";
 
 /* doc: https://js.langchain.com/docs/integrations/vectorstores/prisma/ */
 
@@ -40,7 +39,6 @@ export const productRetriever = (...options: ConfigPrismaRetriever) => {
   return productVectorStore.asRetriever(k, ...rest);
 };
 
-// export const prismaVectorStoreAsRetriever = vectorStore.asRetriever({ k: 4 });
 
 export async function addDocumentsToVectorStore(
   products: Prisma.ProductCreateInput[]

@@ -13,7 +13,7 @@ type Fields = Partial<Record<string, any>> & {
  */
 export async function loadChatModel(
   fullySpecifiedName: string = "claude-3-7-sonnet-latest", // Default to Claude Sonnet 4 latest model
-  fields: Fields = { temperature: 0, maxTokens: 2500 } // Default values can be overridden
+  fields: Fields = { temperature: 0, maxTokens: 2000 } // Default values can be overridden
 ) {
   const index = fullySpecifiedName.indexOf("/");
   if (index === -1) {

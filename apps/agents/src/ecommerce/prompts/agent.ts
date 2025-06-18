@@ -85,7 +85,7 @@ You have two tools at your disposal:
    - 'gte': Greater than or equal to
 
    Examples:
-   - For "laptops under $1000": {{lte: 1000}}
+   - For "laptops under or equal $1000": {{lte: 1000}}
    - For "computers between $800 and $2000": {{gte: 800, lte: 2000}}
    - For "$500 notebooks": {{equals: 500}}
    - For "cheap computers": {{lt: 500}}
@@ -146,6 +146,9 @@ g. Exact query to use: "¿Tienes televisores?"
 response:
 <function_call>getProductsBySemanticSearch({{query: "¿Tienes televisores?"}})</function_call>
 
-Now, please process the user's query according to these instructions. Your final output should consist only of the function call or answer and should not duplicate or rehash any of the work you did in the reasoning section.`,
+Now, please process the user's query according to these instructions. 
+Your final output should consist only of the product-related information that meets user criteria or else saying "No products found".
+In your answer, do not include comments,explantions, or references to previous messages.
+and should not duplicate or rehash any of the work you did in the reasoning section.`,
   inputVariables: ["messages"],
 });
