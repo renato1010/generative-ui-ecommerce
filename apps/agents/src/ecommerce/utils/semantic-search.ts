@@ -8,17 +8,8 @@ import { loadChatModel } from "../models.js";
 import { productRetriever } from "../prisma/vector-store.js";
 import { semanticSearchOfProducts } from "../prompts/semantic-search.js";
 import { formatProductDocs } from "./formatDocs.js";
+import { ProductList } from "./types.js";
 
-type SemanticSearchProduct = {
-  name: string;
-  description: string;
-  brand: string;
-  price: string;
-  imageUrl: string;
-  productId: string;
-  distance: number;
-};
-type ProductList = SemanticSearchProduct[];
 export async function getProducts(query: string, k: number = 4) {
   const retriever = productRetriever(k);
   const prompt = semanticSearchOfProducts;
@@ -51,31 +42,14 @@ export async function getProducts(query: string, k: number = 4) {
       content as string
     );
     const { productList } = responseObj;
-    // stringify the product list
-    const stringifiedProductList =
-      `Products from semantic search:\n\n` +
-      productList
-        .map(
-          (product, index) => `
-  Product ${index + 1}:
-    Name: ${product.name}
-    Description: ${product.description}
-    Brand: ${product.brand}
-    Price: ${product.price}
-    Image URL: ${product.imageUrl}
-    ProductId: ${product.productId}
-    Distance: ${product.distance}
-  `
-        )
-        .join("\n\n");
-    return stringifiedProductList;
+
+    return productList;
   } catch (error) {
     console.error(
       "Error running semantic search:",
       error instanceof Error ? error.message : error
     );
-    // return a simple text showing no products found
-    return `No products found for the query:\n\n "${query}". Please try a different search term.`;
+    return [];
   }
 }
 

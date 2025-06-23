@@ -11,13 +11,13 @@ const toolNode = new ToolNode<typeof GraphState.State>(tools);
 
 const workflow = new StateGraph(GraphState, ConfigurationSchema)
   .addNode("agent", agent)
-  .addNode("tools", toolNode)
+  .addNode("tools", toolNode, { ends: ["__end__"] })
   .addEdge(START, "agent")
   .addConditionalEdges("agent", shouldContinue, {
     ACTION: "tools",
     __STOP__: "__end__",
   })
-  .addEdge("tools", "agent");
+  // .addEdge("tools", "agent");
 
 export const graph = workflow.compile();
-graph.name = "Ecommerce";
+graph.name = "laptops";

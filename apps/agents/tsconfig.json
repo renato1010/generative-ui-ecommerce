@@ -17,7 +17,13 @@
     "useDefineForClassFields": true,
     "strictPropertyInitialization": false,
     "allowJs": true,
-    "strict": true
+    "strict": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "resolveJsonModule": false,
+    "moduleDetection": "force"
   },
   "include": ["src/"],
   "exclude": ["node_modules/", "dist"]

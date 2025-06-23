@@ -5,5 +5,8 @@
     "agent": "./apps/agents/src/react-agent/graph.ts:graph",
     "laptops": "./apps/agents/src/ecommerce/graph.ts:graph"
   },
+  "ui": {
+    "laptops": "./apps/agents/src/agents-uis/index.tsx"
+  },
   "env": ".env"
 }

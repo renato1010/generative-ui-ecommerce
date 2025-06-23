@@ -1,18 +1,13 @@
 import { PrismaClient } from "src/generated/prisma/client.js";
 import { ProductPriceFilter } from "../tools.js";
-
-// utility function to parse price based on Intl.NumberFormat
-function parsePrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(price);
-}
+import { ProductList } from "./types.js";
+import { formatPrice } from "@/agents-uis/utils.js";
 
 const prisma = new PrismaClient();
+
 export async function laptopsByPrice(
   price: ProductPriceFilter
-): Promise<string> {
+): Promise<ProductList> {
   try {
     const priceKeys = Object.keys(price);
     const priceValues = Object.values(price);
@@ -23,7 +18,7 @@ export async function laptopsByPrice(
       ["equals", "lt", "lte", "gt", "gte"].includes(key)
     );
     if (priceKeys.length === 0 || !areAllValuesNumbers || !areAllKeysValid) {
-      return ""; // No valid operator found
+      return []; // No valid operator found
     }
 
     const itemsByPrice = await prisma.product.findMany({
@@ -38,24 +33,25 @@ export async function laptopsByPrice(
         imageUrl: true,
       },
     });
+    // Convert Prisma's Product type to our ProductList type
+    const productList: ProductList = itemsByPrice.map((item) => ({
+      name: item.name,
+      description: item.description,
+      price: formatPrice(item.price), // Ensure price is a string
+      imageUrl:
+        item.imageUrl ??
+        "https://static.frame.work/sf2283foiw5bd760wbrlyk0230ov",
+      productId: item.id, // Assuming id is the productId
+    }));
     // if no items found, return early
-    if (itemsByPrice.length === 0) {
-      return "No laptops found for the specified price range.";
+    if (productList.length === 0) {
+      // return "No laptops found for the specified price range.";
+      return [];
     }
-    const stringifiedItems = itemsByPrice
-      .map((item, idx) => {
-        const parsedPrice = parsePrice(item.price);
-        return `Product # ${idx + 1}:\n
-        Name: ${item.name}\n
-        Description: ${item.description}\n
-        Price: ${parsedPrice}\n
-        Image URL: ${item.imageUrl}\n`;
-      })
-      .join("\n\n");
-    return `Laptops by price\n\n${stringifiedItems}`;
+    return productList;
   } catch (error) {
     console.error("Error parsing price:", error);
-    return ""; // Return empty string on error
+    return []; // Return empty array on error
   } finally {
     await prisma.$disconnect();
   }
