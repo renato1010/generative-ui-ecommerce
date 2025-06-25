@@ -1,3 +1,4 @@
+"use client";
 import React, {
   createContext,
   useContext,
@@ -22,7 +23,20 @@ import { getApiKey } from "@/lib/api-key";
 import { useThreads } from "./Thread";
 import { toast } from "sonner";
 
-export type StateType = { messages: Message[]; ui?: UIMessage[] };
+export type Product = {
+  name: string;
+  description: string;
+  brand?: string;
+  price: string;
+  imageUrl: string;
+  productId: string;
+  distance?: number;
+};
+export type StateType = {
+  messages: Message[];
+  ui?: UIMessage[];
+  productsInCart?: Product[];
+};
 
 const useTypedStream = useStream<
   StateType,
@@ -263,6 +277,7 @@ export const StreamProvider: React.FC<{ children: ReactNode }> = ({
 };
 
 // Create a custom hook to use the context
+// eslint-disable-next-line react-refresh/only-export-components
 export const useStreamContext = (): StreamContextType => {
   const context = useContext(StreamContext);
   if (context === undefined) {

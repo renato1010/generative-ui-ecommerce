@@ -373,7 +373,7 @@ export function Thread() {
                   <div className="flex gap-3 items-center">
                     <p className="size-14 text-6xl">💻</p>
                     <h1 className="text-2xl font-semibold tracking-tight">
-                      Laptops Deals Chat
+                      Laptops Deals AI Chat
                     </h1>
                   </div>
                 )}

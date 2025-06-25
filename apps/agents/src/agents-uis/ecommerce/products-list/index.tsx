@@ -1,6 +1,8 @@
 import "./index.css";
-import { type ProductList } from "@/ecommerce/utils/types.js";
 import { useState } from "react";
+import { UIMessage, useStreamContext } from "@langchain/langgraph-sdk/react-ui";
+import { Message } from "@langchain/langgraph-sdk";
+import { type ProductList } from "@/ecommerce/utils/types.js";
 
 type Product = ProductList[number];
 export default function ProductsList({ products }: { products: ProductList }) {
@@ -26,8 +28,17 @@ function ProductCard({
   onCardClick,
   className = "",
 }: ProductCardProps) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const threadId = urlParams.get("threadId");
+  const url = new URL(window.location.href);
+  const baseUrl = url.origin + url.pathname;
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+
+  const thread = useStreamContext<
+    { messages: Message[]; ui: UIMessage[] },
+    { MetaType: { ui: UIMessage | undefined } }
+  >();
 
   const handleCardClick = () => {
     onCardClick?.(product);
@@ -40,6 +51,22 @@ function ProductCard({
   const handleImageError = () => {
     setImageError(true);
     setImageLoading(false);
+  };
+
+  const handleAddtoCart = (product: Product) => {
+    console.log("Adding product to cart:", product);
+    thread.submit(
+      {},
+      {
+        command: {
+          update: {
+            productsInCart: [product],
+          },
+          goto: "__end__",
+        },
+      }
+    );
+    window.location.href = `${baseUrl}/cart?threadId=${threadId}`;
   };
 
   // Fallback values for missing data
@@ -129,6 +156,14 @@ function ProductCard({
             </span>
           </div>
         </div>
+        {/* Add to Cart Button */}
+        <button
+          className="mt-3 w-full bg-orange-600 text-white font-bold py-2 rounded-lg 
+        hover:bg-orange-700 transition"
+          onClick={() => handleAddtoCart(product)}
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import { validate } from "uuid";
 import { getApiKey } from "@/lib/api-key";
 import { Thread } from "@langchain/langgraph-sdk";
@@ -66,6 +68,7 @@ export function ThreadProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useThreads() {
   const context = useContext(ThreadContext);
   if (context === undefined) {

@@ -38,6 +38,18 @@ export const GraphState = Annotation.Root({
     reducer: (_left: Product[], right: Product[]) => right,
     default: () => [],
   }),
+  productsInCart: Annotation<Product[]>({
+    reducer: (left: Product[], right: Product[]) => {
+      const isAlreadyInCart = right.find(
+        (product) => product.productId === left[0]?.productId
+      );
+      if (isAlreadyInCart) {
+        return right; // No change, product already in cart
+      }
+      return [...right, left[0]]; // Add new product to cart
+    },
+    default: () => [],
+  }),
   userId: Annotation<string>({
     reducer: (prev, current) => (current === prev ? prev : current),
     default: () => "",

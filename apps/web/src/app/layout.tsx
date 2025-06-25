@@ -10,6 +10,7 @@ const inter = Inter({
   display: "swap",
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   title: "Agent Inbox",
   description: "Agent Inbox UX by LangChain",

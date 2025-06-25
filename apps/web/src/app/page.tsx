@@ -1,10 +1,10 @@
 "use client";
 
-import { Thread } from "@/components/thread";
+import React from "react";
+import { Toaster } from "@/components/ui/sonner";
 import { StreamProvider } from "@/providers/Stream";
 import { ThreadProvider } from "@/providers/Thread";
-import { Toaster } from "@/components/ui/sonner";
-import React from "react";
+import { Thread } from "@/components/thread";
 
 export default function DemoPage(): React.ReactNode {
   return (
