@@ -17,7 +17,6 @@ const workflow = new StateGraph(GraphState, ConfigurationSchema)
     ACTION: "tools",
     __STOP__: "__end__",
   })
-  // .addEdge("tools", "agent");
 
 export const graph = workflow.compile();
 graph.name = "laptops";

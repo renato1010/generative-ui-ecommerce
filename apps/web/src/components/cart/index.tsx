@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
+import { useGraphState } from "@/providers/GraphState";
 
 interface CartItem {
   productId: string;
@@ -39,52 +40,36 @@ export default function Cart({ initialItems = [] }: CartProps) {
   console.log("Cart component initialized with items:", initialItems);
   const [cartItems, setCartItems] = useState<CartItem[]>(initialItems);
 
-  const searchParams = useSearchParams();
-  const threadId = searchParams.get("threadId");
-  console.dir({ threadId }, { depth: null });
+  const [threadId] = useQueryState("threadId");
+  const [apiUrl] = useQueryState("apiUrl");
+  console.dir({ threadId, apiUrl }, { depth: null });
+  const { getCurrentGraphState } = useGraphState();
 
   useEffect(() => {
     async function fetchCartItems() {
       try {
-        if (threadId) {
-          const threadStateUrl = `http://localhost:2024/threads/${threadId}/state`;
-          const response = await fetch(threadStateUrl, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          if (response.ok) {
-            const state = await response.json();
-            const values: {
-              [key: string]: unknown;
-              productsInCart: CartItem[];
-            } = state?.values || {};
-            const fetchedProducts = values.productsInCart || [];
-            console.log("Fetched thread state:", fetchedProducts);
-            // filter out any null or undefined items
-            const productsInCart = fetchedProducts
-              .filter((item: CartItem) => !!item)
-              .map((item: CartItem) => ({
-                ...item,
-                quantity: item.quantity || 1,
-              }));
-            setCartItems(productsInCart);
-          } else {
-            console.error("Failed to fetch thread state:", response.statusText);
-          }
-        } else {
-          console.warn("No thread ID found in search params");
+        const currentState = await getCurrentGraphState();
+        if (!currentState?.productsInCart?.length) {
+          setCartItems([]);
+          return;
         }
+        const productsInCart = currentState?.productsInCart
+          .filter((item) => !!item)
+          .map((item) => ({
+            ...item,
+            quantity: 1,
+          }));
+        setCartItems(productsInCart);
       } catch (error) {
-        console.error("Error fetching thread state:", error);
-        setCartItems([]);
+        console.error("Error fetching cart items:", error);
       }
     }
-    fetchCartItems().catch((error) => {
-      console.error("Error in fetchCartItems:", error);
-    });
-  }, [threadId]);
+
+    if (threadId && apiUrl) {
+      fetchCartItems();
+    }
+  }, [threadId, apiUrl, getCurrentGraphState]);
+
 
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity <= 0) {
