@@ -40,13 +40,12 @@ export const GraphState = Annotation.Root({
   }),
   productsInCart: Annotation<Product[]>({
     reducer: (left: Product[], right: Product[]) => {
-      const isAlreadyInCart = right.find(
-        (product) => product.productId === left[0]?.productId
+      const previousIds = left.map((product) => product.productId);
+      // Filter out products that are already in the cart
+      const filteredRight = right.filter(
+        (product) => !previousIds.includes(product.productId)
       );
-      if (isAlreadyInCart) {
-        return right; // No change, product already in cart
-      }
-      return [...right, left[0]]; // Add new product to cart
+      return [...left, ...filteredRight];
     },
     default: () => [],
   }),

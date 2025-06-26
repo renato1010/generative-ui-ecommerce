@@ -30,6 +30,7 @@ function ProductCard({
 }: ProductCardProps) {
   const urlParams = new URLSearchParams(window.location.search);
   const threadId = urlParams.get("threadId");
+  const apiUrl = urlParams.get("apiUrl") || "http://localhost:2024";
   const url = new URL(window.location.href);
   const baseUrl = url.origin + url.pathname;
   const [imageError, setImageError] = useState(false);
@@ -66,7 +67,7 @@ function ProductCard({
         },
       }
     );
-    window.location.href = `${baseUrl}/cart?threadId=${threadId}`;
+    window.location.href = `${baseUrl}/cart?threadId=${threadId}&apiUrl=${apiUrl}`;
   };
 
   // Fallback values for missing data
