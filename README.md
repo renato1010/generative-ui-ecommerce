@@ -225,6 +225,15 @@ When a user clicks "Add to Cart", we send a command to the agent to update its `
 
 The final piece of the puzzle is the cart page (`apps/web/src/app/cart/page.tsx`). To display the items, it fetches the latest state directly from the LangGraph server's state endpoint (`GET /threads/{threadId}/state`), reads the `productsInCart` array, and renders the items. This ensures the cart is always in sync with the agent's understanding.
 
+
+### 7. Repo Link QR
+
+<details>
+<summary>Click to see the QR code linking to the GitHub repository for this project</summary>
+<img src="./pics/repo-url-qr.png" alt="QR code linking to the GitHub repository for this project. Scanning the QR code will direct users to the repository where they can find the source code and documentation." width="600">
+</details>
+
+
 ## 📝 Notes & Caveats
 
 A quick note on Prisma's support for `pgvector`.
